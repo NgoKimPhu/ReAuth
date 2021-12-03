@@ -152,7 +152,6 @@ public final class AuthHelper {
             String access = loginAuth.getAuthenticatedToken();
             Optional<String> clientId = getSession().getClientId();
             AccountType type = AccountType.byName(loginAuth.getUserType().getName());
-            loginAuth.getUserID();
 
             Session session = new Session(username, uuid, access, null, clientId, type);
 //            session.setProperties(loginAuth.getUserProperties());

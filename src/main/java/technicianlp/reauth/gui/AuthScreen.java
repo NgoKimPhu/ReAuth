@@ -70,11 +70,11 @@ public final class AuthScreen extends Screen {
 
         this.confirm = new ButtonWidget(this.width / 2 - 155, this.baseY + 110, 153, 20, LiteralText.EMPTY, b -> doLogin());
         addDrawableChild(confirm);
-        this.cancel = new ButtonWidget(this.width / 2 + 2, this.baseY + 110, 155, 20, new TranslatableText("gui.cancel"), b -> this.client.openScreen(prev));
+        this.cancel = new ButtonWidget(this.width / 2 + 2, this.baseY + 110, 155, 20, new TranslatableText("gui.cancel"), b -> this.client.setScreen(prev));
         addDrawableChild(cancel);
 
         this.config = new ButtonWidget(this.width - 80, this.height - 25, 75, 20, new TranslatableText("reauth.gui.auth.config"), b -> {
-            this.client.openScreen(ClothConfigIntegration.getConfigScreen(this));
+            this.client.setScreen(ClothConfigIntegration.getConfigScreen(this));
         });
         if (ClothConfigIntegration.isAvailable()) {
         	addDrawableChild(config);
@@ -192,7 +192,7 @@ public final class AuthScreen extends Screen {
      */
     @Override
     public void onClose() {
-        this.client.openScreen(prev);
+        this.client.setScreen(prev);
     }
 
     /**

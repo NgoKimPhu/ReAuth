@@ -50,7 +50,7 @@ public abstract class DisconnectedScreenMixin extends Screen implements Disconne
                 }
                 this.addDrawableChild(retryButton);
                 this.addDrawableChild(new ButtonWidget(menu.x, menu.y + 50, 200, 20, new TranslatableText("reauth.open"), b -> {
-                    MinecraftClient.getInstance().openScreen(new AuthScreen(reauthGetParent()));
+                    MinecraftClient.getInstance().setScreen(new AuthScreen(reauthGetParent()));
                 }));
             }
         }

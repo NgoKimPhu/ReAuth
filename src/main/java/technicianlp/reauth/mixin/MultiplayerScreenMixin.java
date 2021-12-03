@@ -28,7 +28,7 @@ public class MultiplayerScreenMixin extends Screen {
             ReAuth.auth.getSessionStatus(true);
         }
         addDrawableChild(new ButtonWidget(5, 5, 100, 20, new TranslatableText("reauth.gui.button"),
-                b -> MinecraftClient.getInstance().openScreen(new AuthScreen(this))));
+                b -> MinecraftClient.getInstance().setScreen(new AuthScreen(this))));
     }
 
     @Inject(at = @At("TAIL"), method = "render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V")

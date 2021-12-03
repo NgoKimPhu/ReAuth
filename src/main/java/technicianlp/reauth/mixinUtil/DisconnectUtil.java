@@ -46,7 +46,7 @@ public class DisconnectUtil {
         } catch (AuthenticationException exception) {
             ReAuth.log.error("Login failed:", exception);
             Screen login = new AuthScreen(screen.reauthGetParent(), I18n.translate("reauth.login.fail", exception.getMessage()));
-            MinecraftClient.getInstance().openScreen(login);
+            MinecraftClient.getInstance().setScreen(login);
         }
     }
 }

@@ -1,23 +1,26 @@
 package technicianlp.reauth;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.net.Proxy;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.regex.Pattern;
+
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import com.mojang.util.UUIDTypeAdapter;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Session;
+import net.minecraft.client.util.Session.AccountType;
 import technicianlp.reauth.mixin.MinecraftClientMixin;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.net.Proxy;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-import java.util.function.BiFunction;
-import java.util.regex.Pattern;
 
 public final class AuthHelper {
 
@@ -147,9 +150,11 @@ public final class AuthHelper {
             String username = loginAuth.getSelectedProfile().getName();
             String uuid = UUIDTypeAdapter.fromUUID(loginAuth.getSelectedProfile().getId());
             String access = loginAuth.getAuthenticatedToken();
-            String type = loginAuth.getUserType().getName();
+            Optional<String> clientId = getSession().getClientId();
+            AccountType type = AccountType.byName(loginAuth.getUserType().getName());
+            loginAuth.getUserID();
 
-            Session session = new Session(username, uuid, access, type);
+            Session session = new Session(username, uuid, access, null, clientId, type);
 //            session.setProperties(loginAuth.getUserProperties());
 
             loginAuth.logOut();
@@ -168,7 +173,7 @@ public final class AuthHelper {
      */
     public void offline(String username) {
         UUID uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + username).getBytes(StandardCharsets.UTF_8));
-        setSession(new Session(username, uuid.toString(), "invalid", "legacy"));
+        setSession(new Session(username, uuid.toString(), "invalid", null, getSession().getClientId(), AccountType.byName("legacy")));
         ReAuth.log.info("Offline Username set!");
         ReAuth.config.setCredentials(username, "", "");
     }

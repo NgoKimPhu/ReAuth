@@ -26,7 +26,7 @@ repositories {
     }
     
     maven {
-    	url "https://maven.terraformersmc.com/releases/"
+        url "https://maven.terraformersmc.com/releases/"
     }
 }
 
